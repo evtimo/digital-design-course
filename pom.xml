@@ -10,6 +10,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.albfernandez</groupId>
             <artifactId>javadbf</artifactId>
             <version>1.9.2</version>
@@ -55,6 +60,14 @@
                             <mainClass>com.digdes.school.Main</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>

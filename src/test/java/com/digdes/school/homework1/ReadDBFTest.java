@@ -6,7 +6,8 @@ import static org.junit.Assert.assertEquals;
 public class ReadDBFTest {
     @Test
     public void FileInputTest() {
-        String name = "Evgeny";
-        assertEquals(ReadDBF.readFile(""), name);
+        //Check, that first field in Header is "Name"
+        String name = "NAME";
+        assertEquals(ReadDBF.readFile("").get(0)[0], name);
     }
 }

@@ -1,49 +1,61 @@
 package com.digdes.school.homework1;
 
-import com.linuxense.javadbf.*;
+import com.linuxense.javadbf.DBFException;
+import com.linuxense.javadbf.DBFField;
+import com.linuxense.javadbf.DBFReader;
+import com.linuxense.javadbf.DBFUtils;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
 
 public class ReadDBF {
 
-    public static String readFile(String fileName) {
+    public static ArrayList<String[]> readFile(String filePath) {
         DBFReader reader = null;
         String output = "";
+        Object[] rowObjects;
+
+        ArrayList<String[]> stringVector = new ArrayList<>();
+        int rowNum = 0;
         try {
 
-            // create a DBFReader object
-            if (fileName.equals("")) fileName = "src/main/resources/test.dbf";
-            reader = new DBFReader(new FileInputStream(fileName));
+            if (filePath.equals("")) filePath = "src/main/resources/test.dbf";
 
-            // get the field count if you want for some reasons like the following
+            reader = new DBFReader(new FileInputStream(filePath));
+
             int numberOfFields = reader.getFieldCount();
 
-            // use this count to fetch all field information
+            String[] stringArray = new String[numberOfFields];
             for (int i = 0; i < numberOfFields; i++) {
                 DBFField field = reader.getField(i);
+                stringArray[i] = field.getName().toString();
             }
 
-            // start reading the rows
-            DBFRow row;
-            while ((row = reader.nextRow()) != null) {
-                output = row.getString("NAME");
-            }
+            stringVector.add(stringArray);
 
+            while ((rowObjects = reader.nextRecord()) != null) {
+
+                stringArray = Arrays.stream(rowObjects)
+                        .map(Object::toString)
+                        .toArray(String[]::new);
+                stringVector.add(stringArray);
+            }
         } catch (DBFException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
             DBFUtils.close(reader);
         }
 
-        return output;
+        return stringVector;
     }
 
     public static void main(String[] args) {
-        //System.out.println("input params: " + args + " " + System.getProperty("user.dir"));
         System.out.println(readFile(""));
-
     }
 
 }

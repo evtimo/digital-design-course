@@ -8,6 +8,7 @@ public class MainTest {
     @Test
     public void testOutput() throws Exception {
 
+        //Check, that Main method prints HelloWorld
         TestHelper.captureOutput(new CaptureTest() {
             @Override
             public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
